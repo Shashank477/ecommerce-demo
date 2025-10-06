@@ -30,7 +30,7 @@ function loginUser() {
     if (storedPassword && storedPassword === password) {
         window.dataLayer = window.dataLayer || [];
         window.dataLayer.push({
-        'event': 'login',
+        'event': 'login1',
         'username': username
         });
         sessionStorage.setItem('loggedInUser', username);
