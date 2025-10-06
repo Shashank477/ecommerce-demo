@@ -74,52 +74,99 @@ dataLayer.push({
 // }
 
 // REVISED Login user function with debugging
+// function loginUser() {
+//     const username = document.getElementById('loginUsername').value;
+//     const password = document.getElementById('loginPassword').value;
+
+//     // --- DEBUG CHECKPOINT 1 ---
+//     console.log("Attempting login for user:", username);
+
+//     const storedPassword = localStorage.getItem('user_' + username);
+
+//     // --- DEBUG CHECKPOINT 2 ---
+//     console.log("Username from input:", username);
+//     console.log("Password from input:", password);
+//     console.log("Password from storage:", storedPassword);
+
+//     if (storedPassword && storedPassword === password) {
+//         // --- DEBUG CHECKPOINT 3 (SUCCESS) ---
+//         console.log("Passwords match! Entering success block.");
+
+//         sessionStorage.setItem('loggedInUser', username);
+
+//         // This function will be called after the event is processed
+//         const navigateToHome = () => {
+//             console.log("dataLayer event processed. Redirecting now...");
+//             window.location.href = "index.html";
+//         };
+
+//         // Initialize dataLayer if it doesn't exist
+//         window.dataLayer = window.dataLayer || [];
+
+//         // --- DEBUG CHECKPOINT 4 ---
+//         console.log("Pushing 'login' event to dataLayer.");
+
+//         window.dataLayer.push({
+//             'event': 'login',
+//             'username': username,
+//             'eventCallback': navigateToHome,
+//             'eventTimeout': 2000 // Fallback timeout of 2 seconds
+//         });
+
+//     } else {
+//         // --- DEBUG CHECKPOINT 5 (FAILURE) ---
+//         console.error("Login failed: Passwords do not match or user does not exist.");
+//         alert("Invalid credentials");
+//     }
+// }
+// REVISED loginUser function
 function loginUser() {
     const username = document.getElementById('loginUsername').value;
     const password = document.getElementById('loginPassword').value;
-
-    // --- DEBUG CHECKPOINT 1 ---
-    console.log("Attempting login for user:", username);
-
     const storedPassword = localStorage.getItem('user_' + username);
 
-    // --- DEBUG CHECKPOINT 2 ---
-    console.log("Username from input:", username);
-    console.log("Password from input:", password);
-    console.log("Password from storage:", storedPassword);
-
     if (storedPassword && storedPassword === password) {
-        // --- DEBUG CHECKPOINT 3 (SUCCESS) ---
-        console.log("Passwords match! Entering success block.");
-
         sessionStorage.setItem('loggedInUser', username);
 
-        // This function will be called after the event is processed
-        const navigateToHome = () => {
-            console.log("dataLayer event processed. Redirecting now...");
-            window.location.href = "index.html";
-        };
+        // This is the new line!
+        // We are setting a flag to be read by the next page.
+        sessionStorage.setItem('justLoggedInUser', username);
 
-        // Initialize dataLayer if it doesn't exist
-        window.dataLayer = window.dataLayer || [];
-
-        // --- DEBUG CHECKPOINT 4 ---
-        console.log("Pushing 'login' event to dataLayer.");
-
-        window.dataLayer.push({
-            'event': 'login',
-            'username': username,
-            'eventCallback': navigateToHome,
-            'eventTimeout': 2000 // Fallback timeout of 2 seconds
-        });
+        alert("Login successful!");
+        window.location.href = "index.html"; // We can remove the dataLayer push from here now.
 
     } else {
-        // --- DEBUG CHECKPOINT 5 (FAILURE) ---
-        console.error("Login failed: Passwords do not match or user does not exist.");
         alert("Invalid credentials");
     }
 }
 
+// Add this new function to the script that runs on index.html
+
+function trackLoginEvent() {
+    // Check if the "just logged in" flag exists
+    const loggedInUsername = sessionStorage.getItem('justLoggedInUser');
+
+    if (loggedInUsername) {
+        console.log("Login flag found for user:", loggedInUsername, ". Pushing login event.");
+
+        // Push the event to the dataLayer on THIS page
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+            'event': 'login',
+            'username': loggedInUsername,
+        });
+
+        // IMPORTANT: Remove the flag so this doesn't run again on refresh
+        sessionStorage.removeItem('justLoggedInUser');
+    }
+}
+
+// Call this function when the main page loads.
+// For example, if you have a function that runs when the page is ready:
+window.onload = function() {
+    loadProducts(); // Your existing function
+    trackLoginEvent(); // The new function
+};
 
 // Logout user
 function logoutUser() {
