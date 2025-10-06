@@ -44,31 +44,78 @@ dataLayer.push({
 //     }
 // }
 
+// function loginUser() {
+//     const username = document.getElementById('loginUsername').value;
+//     const password = document.getElementById('loginPassword').value;
+//     const storedPassword = localStorage.getItem('user_' + username);
+
+//     if (storedPassword && storedPassword === password) {
+//         sessionStorage.setItem('loggedInUser', username);
+//         alert("Login successful!");
+
+//         // This function will be called after the event is processed
+//         // const navigateToHome = () => {
+//         //     window.location.href = "index.html";
+//         // };
+
+//         window.dataLayer = window.dataLayer || [];
+//         window.dataLayer.push({
+//             'event': 'login',
+//             'username': username,
+//             // Add the eventCallback here
+//             'eventCallback': navigateToHome,
+//             // It's also a good practice to add a timeout as a fallback
+//             'eventTimeout': 2000 // 2 seconds
+//         });
+
+//     } else {
+//         alert("Invalid credentials");
+//     }
+// }
+
+// REVISED Login user function with debugging
 function loginUser() {
     const username = document.getElementById('loginUsername').value;
     const password = document.getElementById('loginPassword').value;
+
+    // --- DEBUG CHECKPOINT 1 ---
+    console.log("Attempting login for user:", username);
+
     const storedPassword = localStorage.getItem('user_' + username);
 
+    // --- DEBUG CHECKPOINT 2 ---
+    console.log("Username from input:", username);
+    console.log("Password from input:", password);
+    console.log("Password from storage:", storedPassword);
+
     if (storedPassword && storedPassword === password) {
+        // --- DEBUG CHECKPOINT 3 (SUCCESS) ---
+        console.log("Passwords match! Entering success block.");
+
         sessionStorage.setItem('loggedInUser', username);
-        alert("Login successful!");
 
         // This function will be called after the event is processed
-        // const navigateToHome = () => {
-        //     window.location.href = "index.html";
-        // };
+        const navigateToHome = () => {
+            console.log("dataLayer event processed. Redirecting now...");
+            window.location.href = "index.html";
+        };
 
+        // Initialize dataLayer if it doesn't exist
         window.dataLayer = window.dataLayer || [];
+
+        // --- DEBUG CHECKPOINT 4 ---
+        console.log("Pushing 'login' event to dataLayer.");
+
         window.dataLayer.push({
             'event': 'login',
             'username': username,
-            // Add the eventCallback here
             'eventCallback': navigateToHome,
-            // It's also a good practice to add a timeout as a fallback
-            'eventTimeout': 2000 // 2 seconds
+            'eventTimeout': 2000 // Fallback timeout of 2 seconds
         });
 
     } else {
+        // --- DEBUG CHECKPOINT 5 (FAILURE) ---
+        console.error("Login failed: Passwords do not match or user does not exist.");
         alert("Invalid credentials");
     }
 }
