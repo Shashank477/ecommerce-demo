@@ -212,20 +212,45 @@ function addToCart(productId) {
 }
 
 // Display products
+// function loadProducts() {
+//     checkLogin();
+//     const products = [
+//         {id: 1, name: "T-Shirt", price: 10},
+//         {id: 2, name: "Jeans", price: 20},
+//         {id: 3, name: "Sneakers", price: 30}
+//     ];
+
+//     const container = document.getElementById('productList');
+//     products.forEach(p => {
+//         const div = document.createElement('div');
+//         div.className = "product";
+//         div.innerHTML = `<h3>${p.name}</h3><p>Price: $${p.price}</p>
+//             <button onclick="addToCart(${p.id})">Add to Cart</button>`;
+//         container.appendChild(div);
+//     });
+// }
+
+// REVISED function to prevent the error
 function loadProducts() {
     checkLogin();
-    const products = [
-        {id: 1, name: "T-Shirt", price: 10},
-        {id: 2, name: "Jeans", price: 20},
-        {id: 3, name: "Sneakers", price: 30}
-    ];
 
+    // Find the container for products
     const container = document.getElementById('productList');
-    products.forEach(p => {
-        const div = document.createElement('div');
-        div.className = "product";
-        div.innerHTML = `<h3>${p.name}</h3><p>Price: $${p.price}</p>
-            <button onclick="addToCart(${p.id})">Add to Cart</button>`;
-        container.appendChild(div);
-    });
+
+    // ONLY run the product loading code if the container actually exists on the page
+    if (container) {
+        const products = [
+            {id: 1, name: "T-Shirt", price: 10},
+            {id: 2, name: "Jeans", price: 20},
+            {id: 3, name: "Sneakers", price: 30}
+        ];
+
+        products.forEach(p => {
+            const div = document.createElement('div');
+            div.className = "product";
+            div.innerHTML = `<h3>${p.name}</h3><p>Price: $${p.price}</p>
+                <button onclick="addToCart(${p.id})">Add to Cart</button>`;
+            container.appendChild(div);
+        });
+    }
 }
