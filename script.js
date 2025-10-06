@@ -25,10 +25,10 @@ function loginUser() {
     const username = document.getElementById('loginUsername').value;
     const password = document.getElementById('loginPassword').value;
     const storedPassword = localStorage.getItem('user_' + username);
-    
+    window.dataLayer = window.dataLayer || [];
 
     if (storedPassword && storedPassword === password) {
-        window.dataLayer = window.dataLayer || [];
+        
         window.dataLayer.push({
         'event': 'login1',
         'username': username
