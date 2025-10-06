@@ -1,209 +1,100 @@
-// Save registration data
+/************************************************************
+ * SIMPLE USER AUTH + GTM DATALAYER HOOKS
+ ************************************************************/
+
+// ----------------------------------------------------------
+// Registration
+// ----------------------------------------------------------
 function registerUser() {
-    const username = document.getElementById('regUsername').value;
-    const password = document.getElementById('regPassword').value;
+    const username = document.getElementById('regUsername').value.trim();
+    const password = document.getElementById('regPassword').value.trim();
 
     if (!username || !password) {
         alert("Please enter both username and password");
         return;
     }
 
-        window.dataLayer = window.dataLayer || [];
-        console.log(username);
-dataLayer.push({
-  'event': 'register',
-  'username': username,
-});
-
+    // Save data in localStorage (for demo purposes only)
     localStorage.setItem('user_' + username, password);
+
+    // Push registration event to dataLayer for GTM
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+        event: 'register',
+        username: username
+    });
+
     alert("Registration successful!");
     window.location.href = "login.html";
 }
 
-// Login user
-// function loginUser() {
-//     const username = document.getElementById('loginUsername').value;
-//     const password = document.getElementById('loginPassword').value;
-//     const storedPassword = localStorage.getItem('user_' + username);
-
-//     if (storedPassword && storedPassword === password) {
-//         sessionStorage.setItem('loggedInUser', username);
-//         alert("Login successful!");
-//         //window.location.href = "index.html";
-//         const navigateToHome = () => {
-//             window.location.href = "index.html";
-//         };
-//         window.dataLayer = window.dataLayer || [];
-//         window.dataLayer.push({
-//             'event': 'login',
-//             'username': username,
-//         });
-
-//         } else {
-//             alert("Invalid credentials");
-//     }
-// }
-
-// function loginUser() {
-//     const username = document.getElementById('loginUsername').value;
-//     const password = document.getElementById('loginPassword').value;
-//     const storedPassword = localStorage.getItem('user_' + username);
-
-//     if (storedPassword && storedPassword === password) {
-//         sessionStorage.setItem('loggedInUser', username);
-//         alert("Login successful!");
-
-//         // This function will be called after the event is processed
-//         // const navigateToHome = () => {
-//         //     window.location.href = "index.html";
-//         // };
-
-//         window.dataLayer = window.dataLayer || [];
-//         window.dataLayer.push({
-//             'event': 'login',
-//             'username': username,
-//             // Add the eventCallback here
-//             'eventCallback': navigateToHome,
-//             // It's also a good practice to add a timeout as a fallback
-//             'eventTimeout': 2000 // 2 seconds
-//         });
-
-//     } else {
-//         alert("Invalid credentials");
-//     }
-// }
-
-// REVISED Login user function with debugging
-// function loginUser() {
-//     const username = document.getElementById('loginUsername').value;
-//     const password = document.getElementById('loginPassword').value;
-
-//     // --- DEBUG CHECKPOINT 1 ---
-//     console.log("Attempting login for user:", username);
-
-//     const storedPassword = localStorage.getItem('user_' + username);
-
-//     // --- DEBUG CHECKPOINT 2 ---
-//     console.log("Username from input:", username);
-//     console.log("Password from input:", password);
-//     console.log("Password from storage:", storedPassword);
-
-//     if (storedPassword && storedPassword === password) {
-//         // --- DEBUG CHECKPOINT 3 (SUCCESS) ---
-//         console.log("Passwords match! Entering success block.");
-
-//         sessionStorage.setItem('loggedInUser', username);
-
-//         // This function will be called after the event is processed
-//         const navigateToHome = () => {
-//             console.log("dataLayer event processed. Redirecting now...");
-//             window.location.href = "index.html";
-//         };
-
-//         // Initialize dataLayer if it doesn't exist
-//         window.dataLayer = window.dataLayer || [];
-
-//         // --- DEBUG CHECKPOINT 4 ---
-//         console.log("Pushing 'login' event to dataLayer.");
-
-//         window.dataLayer.push({
-//             'event': 'login',
-//             'username': username,
-//             'eventCallback': navigateToHome,
-//             'eventTimeout': 2000 // Fallback timeout of 2 seconds
-//         });
-
-//     } else {
-//         // --- DEBUG CHECKPOINT 5 (FAILURE) ---
-//         console.error("Login failed: Passwords do not match or user does not exist.");
-//         alert("Invalid credentials");
-//     }
-// }
-// REVISED loginUser function
-// function loginUser() {
-//     const username = document.getElementById('loginUsername').value;
-//     const password = document.getElementById('loginPassword').value;
-//     const storedPassword = localStorage.getItem('user_' + username);
-
-//     if (storedPassword && storedPassword === password) {
-//         sessionStorage.setItem('loggedInUser', username);
-
-//         // This is the new line!
-//         // We are setting a flag to be read by the next page.
-//         sessionStorage.setItem('justLoggedInUser', username);
-
-//         alert("Login successful!");
-//         window.location.href = "index.html"; // We can remove the dataLayer push from here now.
-
-//     } else {
-//         alert("Invalid credentials");
-//     }
-// }
-
-// // Add this new function to the script that runs on index.html
-
-// function trackLoginEvent() {
-//     // Check if the "just logged in" flag exists
-//     const loggedInUsername = sessionStorage.getItem('justLoggedInUser');
-
-//     if (loggedInUsername) {
-//         console.log("Login flag found for user:", loggedInUsername, ". Pushing login event.");
-
-//         // Push the event to the dataLayer on THIS page
-//         window.dataLayer = window.dataLayer || [];
-//         window.dataLayer.push({
-//             'event': 'login',
-//             'username': loggedInUsername,
-//         });
-
-//         // IMPORTANT: Remove the flag so this doesn't run again on refresh
-//         sessionStorage.removeItem('justLoggedInUser');
-//     }
-// }
-
-// In script.js - This function is CORRECT
+// ----------------------------------------------------------
+// Login
+// ----------------------------------------------------------
 function loginUser() {
-    const username = document.getElementById('loginUsername').value;
-    const password = document.getElementById('loginPassword').value;
+    const username = document.getElementById('loginUsername').value.trim();
+    const password = document.getElementById('loginPassword').value.trim();
     const storedPassword = localStorage.getItem('user_' + username);
 
     if (storedPassword && storedPassword === password) {
+        // Save logged in user in sessionStorage (temporary)
         sessionStorage.setItem('loggedInUser', username);
 
-        // This flag is essential for the next page
+        // Flag for GTM tracking on next page
         sessionStorage.setItem('justLoggedInUser', username);
 
         alert("Login successful!");
         window.location.href = "index.html";
-
     } else {
-       // alert("Invalid credentials");
+        alert("Invalid credentials");
     }
 }
 
-// Call this function when the main page loads.
-// For example, if you have a function that runs when the page is ready:
-window.onload = function() {
-    loadProducts(); // Your existing function
-    loginUser(); // The new function
-};
-
-// Logout user
+// ----------------------------------------------------------
+// Logout
+// ----------------------------------------------------------
 function logoutUser() {
     sessionStorage.removeItem('loggedInUser');
     alert("Logged out successfully!");
     window.location.href = "login.html";
 }
 
-// Check login status
+// ----------------------------------------------------------
+// Check Login Status (Protected pages only)
+// ----------------------------------------------------------
 function checkLogin() {
     const user = sessionStorage.getItem('loggedInUser');
+
     if (!user) {
-        window.location.href = "login.html";
+        // Only redirect if NOT already on login page
+        if (!window.location.pathname.endsWith('login.html')) {
+            window.location.href = "login.html";
+        }
     }
 }
 
-// Add to cart
+// ----------------------------------------------------------
+// Track Login Event for GTM (Runs ONCE after login)
+// ----------------------------------------------------------
+function trackLoginEvent() {
+    const loggedInUsername = sessionStorage.getItem('justLoggedInUser');
+    if (loggedInUsername) {
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+            event: 'login',
+            username: loggedInUsername
+        });
+
+        console.log("Pushed 'login' event for user:", loggedInUsername);
+
+        // Remove flag so this doesn't run again on refresh
+        sessionStorage.removeItem('justLoggedInUser');
+    }
+}
+
+// ----------------------------------------------------------
+// Product Loading & Cart
+// ----------------------------------------------------------
 function addToCart(productId) {
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
     cart.push(productId);
@@ -211,46 +102,49 @@ function addToCart(productId) {
     alert("Product added to cart!");
 }
 
-// Display products
-// function loadProducts() {
-//     checkLogin();
-//     const products = [
-//         {id: 1, name: "T-Shirt", price: 10},
-//         {id: 2, name: "Jeans", price: 20},
-//         {id: 3, name: "Sneakers", price: 30}
-//     ];
-
-//     const container = document.getElementById('productList');
-//     products.forEach(p => {
-//         const div = document.createElement('div');
-//         div.className = "product";
-//         div.innerHTML = `<h3>${p.name}</h3><p>Price: $${p.price}</p>
-//             <button onclick="addToCart(${p.id})">Add to Cart</button>`;
-//         container.appendChild(div);
-//     });
-// }
-
-// REVISED function to prevent the error
 function loadProducts() {
+    // Run login check BEFORE loading products
     checkLogin();
 
-    // Find the container for products
     const container = document.getElementById('productList');
-
-    // ONLY run the product loading code if the container actually exists on the page
     if (container) {
         const products = [
-            {id: 1, name: "T-Shirt", price: 10},
-            {id: 2, name: "Jeans", price: 20},
-            {id: 3, name: "Sneakers", price: 30}
+            { id: 1, name: "T-Shirt", price: 10 },
+            { id: 2, name: "Jeans", price: 20 },
+            { id: 3, name: "Sneakers", price: 30 }
         ];
 
         products.forEach(p => {
             const div = document.createElement('div');
             div.className = "product";
-            div.innerHTML = `<h3>${p.name}</h3><p>Price: $${p.price}</p>
+            div.innerHTML = `
+                <h3>${p.name}</h3>
+                <p>Price: $${p.price}</p>
                 <button onclick="addToCart(${p.id})">Add to Cart</button>`;
             container.appendChild(div);
         });
     }
 }
+
+/************************************************************
+ * PAGE INITIALIZERS
+ * Run different code depending on which page we're on
+ ************************************************************/
+window.onload = function () {
+    const path = window.location.pathname;
+
+    if (path.endsWith('index.html') || path.endsWith('/')) {
+        // User-facing home products page
+        checkLogin();
+        trackLoginEvent();  // push GTM event if just logged in
+        loadProducts();
+
+    } else if (path.endsWith('login.html')) {
+        // Login page - do nothing special here except wait for form actions
+        console.log("On login page – waiting for user input.");
+
+    } else if (path.endsWith('register.html')) {
+        // Registration page
+        console.log("On register page – waiting for user input.");
+    }
+};
