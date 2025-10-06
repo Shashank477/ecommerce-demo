@@ -29,12 +29,12 @@ function loginUser() {
     if (storedPassword && storedPassword === password) {
         sessionStorage.setItem('loggedInUser', username);
         alert("Login successful!");
-        window.location.href = "index.html";
-window.dataLayer = window.dataLayer || [];
-window.dataLayer.push({
-  'event': 'login',
-  'username': username
-});
+        // window.location.href = "index.html";
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+        'event': 'login',
+        'username': username
+        });
 
     } else {
         alert("Invalid credentials");
