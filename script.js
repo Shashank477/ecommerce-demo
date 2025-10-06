@@ -120,6 +120,48 @@ dataLayer.push({
 //     }
 // }
 // REVISED loginUser function
+// function loginUser() {
+//     const username = document.getElementById('loginUsername').value;
+//     const password = document.getElementById('loginPassword').value;
+//     const storedPassword = localStorage.getItem('user_' + username);
+
+//     if (storedPassword && storedPassword === password) {
+//         sessionStorage.setItem('loggedInUser', username);
+
+//         // This is the new line!
+//         // We are setting a flag to be read by the next page.
+//         sessionStorage.setItem('justLoggedInUser', username);
+
+//         alert("Login successful!");
+//         window.location.href = "index.html"; // We can remove the dataLayer push from here now.
+
+//     } else {
+//         alert("Invalid credentials");
+//     }
+// }
+
+// // Add this new function to the script that runs on index.html
+
+// function trackLoginEvent() {
+//     // Check if the "just logged in" flag exists
+//     const loggedInUsername = sessionStorage.getItem('justLoggedInUser');
+
+//     if (loggedInUsername) {
+//         console.log("Login flag found for user:", loggedInUsername, ". Pushing login event.");
+
+//         // Push the event to the dataLayer on THIS page
+//         window.dataLayer = window.dataLayer || [];
+//         window.dataLayer.push({
+//             'event': 'login',
+//             'username': loggedInUsername,
+//         });
+
+//         // IMPORTANT: Remove the flag so this doesn't run again on refresh
+//         sessionStorage.removeItem('justLoggedInUser');
+//     }
+// }
+
+// In script.js - This function is CORRECT
 function loginUser() {
     const username = document.getElementById('loginUsername').value;
     const password = document.getElementById('loginPassword').value;
@@ -128,36 +170,14 @@ function loginUser() {
     if (storedPassword && storedPassword === password) {
         sessionStorage.setItem('loggedInUser', username);
 
-        // This is the new line!
-        // We are setting a flag to be read by the next page.
+        // This flag is essential for the next page
         sessionStorage.setItem('justLoggedInUser', username);
 
         alert("Login successful!");
-        window.location.href = "index.html"; // We can remove the dataLayer push from here now.
+        window.location.href = "index.html";
 
     } else {
         alert("Invalid credentials");
-    }
-}
-
-// Add this new function to the script that runs on index.html
-
-function trackLoginEvent() {
-    // Check if the "just logged in" flag exists
-    const loggedInUsername = sessionStorage.getItem('justLoggedInUser');
-
-    if (loggedInUsername) {
-        console.log("Login flag found for user:", loggedInUsername, ". Pushing login event.");
-
-        // Push the event to the dataLayer on THIS page
-        window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push({
-            'event': 'login',
-            'username': loggedInUsername,
-        });
-
-        // IMPORTANT: Remove the flag so this doesn't run again on refresh
-        sessionStorage.removeItem('justLoggedInUser');
     }
 }
 
