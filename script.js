@@ -10,7 +10,7 @@ function registerUser() {
 
         window.dataLayer = window.dataLayer || [];
         console.log(username);
-window.dataLayer.push({
+dataLayer.push({
   'event': 'register',
   'username': username,
 });
