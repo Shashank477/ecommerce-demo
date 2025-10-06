@@ -25,27 +25,22 @@ function loginUser() {
     const username = document.getElementById('loginUsername').value;
     const password = document.getElementById('loginPassword').value;
     const storedPassword = localStorage.getItem('user_' + username);
-    alert("Login successful!");
-        // window.location.href = "index.html";
+    
+
+    if (storedPassword && storedPassword === password) {
         window.dataLayer = window.dataLayer || [];
         window.dataLayer.push({
         'event': 'login',
         'username': username
         });
+        sessionStorage.setItem('loggedInUser', username);
+        alert("Login successful!");
+        // window.location.href = "index.html";
+        
 
-    // if (storedPassword && storedPassword === password) {
-    //     sessionStorage.setItem('loggedInUser', username);
-    //     alert("Login successful!");
-    //     // window.location.href = "index.html";
-    //     window.dataLayer = window.dataLayer || [];
-    //     window.dataLayer.push({
-    //     'event': 'login',
-    //     'username': username
-    //     });
-
-    // } else {
-    //     alert("Invalid credentials");
-    // }
+    } else {
+        alert("Invalid credentials");
+    }
 }
 
 
