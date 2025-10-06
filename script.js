@@ -33,7 +33,7 @@ function loginUser() {
 window.dataLayer = window.dataLayer || [];
 window.dataLayer.push({
   'event': 'login',
-  'username': username,
+  'username': username
 });
 
     } else {
