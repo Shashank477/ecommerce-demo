@@ -54,9 +54,9 @@ function loginUser() {
         alert("Login successful!");
 
         // This function will be called after the event is processed
-        const navigateToHome = () => {
-            window.location.href = "index.html";
-        };
+        // const navigateToHome = () => {
+        //     window.location.href = "index.html";
+        // };
 
         window.dataLayer = window.dataLayer || [];
         window.dataLayer.push({
