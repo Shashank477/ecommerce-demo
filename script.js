@@ -25,10 +25,7 @@ function loginUser() {
     const username = document.getElementById('loginUsername').value;
     const password = document.getElementById('loginPassword').value;
     const storedPassword = localStorage.getItem('user_' + username);
-
-    if (storedPassword && storedPassword === password) {
-        sessionStorage.setItem('loggedInUser', username);
-        alert("Login successful!");
+    alert("Login successful!");
         // window.location.href = "index.html";
         window.dataLayer = window.dataLayer || [];
         window.dataLayer.push({
@@ -36,9 +33,19 @@ function loginUser() {
         'username': username
         });
 
-    } else {
-        alert("Invalid credentials");
-    }
+    // if (storedPassword && storedPassword === password) {
+    //     sessionStorage.setItem('loggedInUser', username);
+    //     alert("Login successful!");
+    //     // window.location.href = "index.html";
+    //     window.dataLayer = window.dataLayer || [];
+    //     window.dataLayer.push({
+    //     'event': 'login',
+    //     'username': username
+    //     });
+
+    // } else {
+    //     alert("Invalid credentials");
+    // }
 }
 
 
