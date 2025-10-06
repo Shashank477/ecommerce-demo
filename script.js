@@ -8,6 +8,12 @@ function registerUser() {
         return;
     }
 
+        window.dataLayer = window.dataLayer || [];
+window.dataLayer.push({
+  'event': 'register',
+  'username': username,
+});
+
     localStorage.setItem('user_' + username, password);
     alert("Registration successful!");
     window.location.href = "login.html";
@@ -23,6 +29,12 @@ function loginUser() {
         sessionStorage.setItem('loggedInUser', username);
         alert("Login successful!");
         window.location.href = "index.html";
+        window.dataLayer = window.dataLayer || [];
+window.dataLayer.push({
+  'event': 'login',
+  'username': username,
+});
+
     } else {
         alert("Invalid credentials");
     }
