@@ -21,6 +21,29 @@ dataLayer.push({
 }
 
 // Login user
+// function loginUser() {
+//     const username = document.getElementById('loginUsername').value;
+//     const password = document.getElementById('loginPassword').value;
+//     const storedPassword = localStorage.getItem('user_' + username);
+
+//     if (storedPassword && storedPassword === password) {
+//         sessionStorage.setItem('loggedInUser', username);
+//         alert("Login successful!");
+//         //window.location.href = "index.html";
+//         const navigateToHome = () => {
+//             window.location.href = "index.html";
+//         };
+//         window.dataLayer = window.dataLayer || [];
+//         window.dataLayer.push({
+//             'event': 'login',
+//             'username': username,
+//         });
+
+//         } else {
+//             alert("Invalid credentials");
+//     }
+// }
+
 function loginUser() {
     const username = document.getElementById('loginUsername').value;
     const password = document.getElementById('loginPassword').value;
@@ -29,17 +52,27 @@ function loginUser() {
     if (storedPassword && storedPassword === password) {
         sessionStorage.setItem('loggedInUser', username);
         alert("Login successful!");
-        window.location.href = "index.html";
+
+        // This function will be called after the event is processed
+        const navigateToHome = () => {
+            window.location.href = "index.html";
+        };
+
         window.dataLayer = window.dataLayer || [];
-window.dataLayer.push({
-  'event': 'login',
-  'username': username,
-});
+        window.dataLayer.push({
+            'event': 'login',
+            'username': username,
+            // Add the eventCallback here
+            'eventCallback': navigateToHome,
+            // It's also a good practice to add a timeout as a fallback
+            'eventTimeout': 2000 // 2 seconds
+        });
 
     } else {
         alert("Invalid credentials");
     }
 }
+
 
 // Logout user
 function logoutUser() {
