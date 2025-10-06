@@ -185,7 +185,7 @@ function loginUser() {
 // For example, if you have a function that runs when the page is ready:
 window.onload = function() {
     loadProducts(); // Your existing function
-    trackLoginEvent(); // The new function
+    //trackLoginEvent(); // The new function
 };
 
 // Logout user
