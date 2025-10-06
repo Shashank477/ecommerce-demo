@@ -4,7 +4,7 @@
     <title>Home</title>
     <link rel="stylesheet" href="style.css">
 
-<!-- <script>
+<script>
 window.dataLayer = window.dataLayer || [];
 window.dataLayer.push({
   'event': 'purchase',
@@ -12,28 +12,8 @@ window.dataLayer.push({
   'transactionTotal': 250.00,
   'customerType': 'new'
 });
-</script> -->
+</script>
 
-    <script>
-      // Initialize the dataLayer array
-      window.dataLayer = window.dataLayer || [];
-
-      // Check for the session storage flag
-      const loggedInUsername = sessionStorage.getItem('justLoggedInUser');
-
-      if (loggedInUsername) {
-        console.log('Login flag found. Pushing login event BEFORE GTM loads.');
-
-        // Push the login event
-        window.dataLayer.push({
-          'event': 'login',
-          'username': loggedInUsername
-        });
-
-        // Clear the flag so it doesn't fire on every page refresh
-        sessionStorage.removeItem('justLoggedInUser');
-      }
-    </script>
 
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
